@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LoginSystem.Entities;
 
 namespace LoginSystem
 {
@@ -20,7 +21,21 @@ namespace LoginSystem
         private void Form1_Load(object sender, EventArgs e)
         {
             FormLogin formLogin = new FormLogin();
-            formLogin.ShowDialog();
+            
+            while (UserRegister.UserLogged == null)
+            {
+                Visible = false;
+                formLogin.ShowDialog();
+
+                if (FormLogin.Cancel)
+                {
+                    Application.Exit();
+                    return;
+                }
+            }
+
+            label_Welcome.Text = "Bem Vindo(a) \n" + UserRegister.UserLogged.Name;
+            Visible = true;
         }
     }
 }
